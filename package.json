@@ -1,0 +1,30 @@
+{
+  "name": "fitman",
+  "version": "1.0.0",
+  "description": "Fitness tracking application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AdamHRWhittaker/Fitman.git"
+  },
+  "author": "Adam Whittaker",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AdamHRWhittaker/Fitman/issues"
+  },
+  "homepage": "https://github.com/AdamHRWhittaker/Fitman#readme",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "bootstrap": "^3.3.7",
+    "browserify": "^14.4.0",
+    "express": "^4.15.3",
+    "jquery": "^3.2.1",
+    "moment": "^2.18.1",
+    "mongodb": "^2.2.28",
+    "mongoose": "^4.10.4",
+    "nodemon": "^1.11.0"
+  }
+}
