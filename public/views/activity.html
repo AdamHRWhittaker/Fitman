@@ -1,0 +1,167 @@
+<div ng-controller="ActivityController">
+
+    <div class="jumbotron" ng-show="!isLoggedIn">
+        <h2 ng-show="!isLoggedIn">You must be logged in to access this content</h2>
+    </div>
+
+    <!--Activities-->
+    <div class="jumbotron" ng-show="activitiesDisplay && isLoggedIn">
+        <h2>Activities</h2>
+        <button class="btn btn-default margin-bottom" ng-click="showAddActivityForm()">Add a new activity</button>
+        <div ng-show="!activitiesExists">No activities to show</div>
+        <div ng-show="activitiesExists" class="activity-holder" ng-repeat="activity in userActivities">
+            <div class="activities">
+                <span class="activity-detail"><strong>Name</strong> - {{activity.name}}</span>
+                <span class="activity-detail"><strong>Created on</strong>- {{activity.created | amDateFormat: 'ddd, MMM  YY - h:mm a' }}</span>
+                <span class="activity-detail"><strong>Start</strong> - {{activity.start | amDateFormat: 'ddd, MMM  YY - h:mm a'}}</span>
+                <span class="activity-detail"><strong>End</strong> - {{activity.end | amDateFormat: 'ddd, MMM  YY - h:mm a'}}</span>
+                <span class="activity-detail"><strong>Calories spent</strong>  - {{activity.calories}}</span>
+                <a href="" data-toggle="modal" data-target="#comment-{{activity.id}}" ng-click="showComments(activity.id)">See comments</a>
+            </div>
+
+            <div class="btn-group">
+                <button type="button" class="btn btn-default" aria-label="Justify" ng-click="showActivityDetails(activity.id)">
+                        <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> View
+                    </button>
+                <button type="button" class="btn btn-default" aria-label="Justify" ng-click="shareUnshareActivity(activity.id)">
+                        <span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span> Share
+                    </button>
+                <button type="button" class="btn btn-default" aria-label="Justify" ng-click="showEditActivityForm(activity.id)">
+                        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit
+                    </button>
+                <button type="button" class="btn btn-default" aria-label="Justify" data-toggle="modal" data-target="#activityDelete{{activity.id}}">
+                        <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span> Delete
+                    </button>
+            </div>
+
+            <!-- Delete Modal -->
+            <div id="activityDelete{{activity.id}}" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Attention!</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>Are you sure you want to delete this activity?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" ng-click="confirmDeletion(activity.id)">Delete</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Comment Modal -->
+            <div id="comment-{{activity.id}}" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Comments</h4>
+                        </div>
+                        <div class="modal-body">
+                            <table ng-show="commentsExists" class="table">
+                                <tr>
+                                    <th>User</th>
+                                    <th>Comment</th>
+                                </tr>
+                                <tr ng-repeat="comment in activeComments track by $index">
+                                    <td>{{comment.author}}</td>
+                                    <td>{{comment.message}}<span class="comment-date"> {{comment.created | amDateFormat: 'ddd MM - h:mm a' }}</td>
+                                </tr>
+                            </table>
+                            <div ng-show="!commentsExists">No comments to show</div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Add Activity-->
+    <div class="jumbotron" ng-show="addActivityFormDisplay">
+        <div class="alert alert-danger" ng-show="activityErrorDisplay">{{activityError}}</div>
+        <h2>Add activity</h2>
+        <p>Add a new activity</p>
+        <form id="addActivityForm">
+            <div class="form-group">
+                <label for="inputName">Name</label>
+                <input type="text" class="form-control" id="inputName" placeholder="Name">
+            </div>
+            <div class="form-group">
+                <label for="inputStart">Start</label>
+                <input type="text" class="form-control" id="inputStart" placeholder="Start">
+            </div>
+            <div class="form-group">
+                <label for="inputEnd">End</label>
+                <input type="text" class="form-control" id="inputEnd" placeholder="End">
+            </div>
+            <div class="form-group">
+                <label for="inputCalories">Calories</label>
+                <input type="number" class="form-control" id="inputCalories" placeholder="Calories">
+            </div>
+            <div class="checkbox">
+                <label><input id="checkboxShare" type="checkbox"> Share?</label>
+            </div>
+            <button type="submit" ng-click="validateActivityFormAndSubmit('addActivityForm')" class="btn btn-primary">Save</button>
+            <button type="button" class="btn btn-danger" ng-click="showActivitiesPanel()">Cancel</button>
+        </form>
+    </div>
+
+    <!--Edit Activity-->
+    <div class="jumbotron" ng-show="editActivityFormDisplay">
+        <div class="alert alert-danger" ng-show="activityErrorDisplay">{{activityError}}</div>
+        <h2>Edit activity</h2>
+        <p>Edit existing activity</p>
+        <form id="editActivityForm"> 
+            <div class="form-group">
+                <label for="inputName">Name</label>
+                <input type="text" class="form-control" id="inputName" ng-value="activeActivity[0].name">
+            </div>
+            <div class="form-group">
+                <label for="inputStart">Start</label>
+                <input type="text" class="form-control" id="inputStart" ng-value="activeActivity[0].start">
+            </div>
+            <div class="form-group">
+                <label for="inputEnd">End</label>
+                <input type="text" class="form-control" id="inputEnd"  ng-value="activeActivity[0].end">
+            </div>
+            <div class="form-group">
+                <label for="inputCalories">Calories</label>
+                <input type="number" class="form-control" id="inputCalories" ng-value="activeActivity[0].calories">
+            </div>
+            <div class="checkbox">
+                <label><input id="checkboxShare" type="checkbox" ng-checked="activeActivity[0].shared"> Share?</label>
+            </div>
+            <button type="submit" ng-click="validateActivityFormAndSubmit('editActivityForm')" class="btn btn-primary">Update</button>
+            <button type="button" class="btn btn-danger" ng-click="showActivitiesPanel()">Cancel</button>
+        </form>
+    </div>
+
+    
+
+
+    <!--View Activity-->
+    <div class="jumbotron" ng-show="activityDetailsDisplay">
+        <h2>Activity Details</h2>
+        <div class="activities">
+            <span class="activity-detail"><strong>Name</strong> - {{activeActivity[0].name}}</span>
+                                        <span class="activity-detail"><strong>Created on</strong>- {{activeActivity[0].created | amDateFormat: 'ddd, MMM  YY - h:mm a' }}</span>
+                                        <span class="activity-detail"><strong>Start</strong> - {{activeActivity[0].start | amDateFormat: 'ddd, MMM  YY - h:mm a'}}</span>
+                                        <span class="activity-detail"><strong>End</strong> - {{activeActivity[0].end | amDateFormat: 'ddd, MMM  YY - h:mm a'}}</span>
+                                        <span class="activity-detail"><strong>Calories spent</strong>  - {{activeActivity[0].calories}}</span>
+                                        <span class="activity-detail"><strong>Shared</strong>  - {{activeActivity[0].shared ? 'Yes' : 'No'}}</span>
+                        </div>
+                        <button type="button" class="btn btn-danger" ng-click="showActivitiesPanel()">Go Back</button>
+                    </div>
+                </div>

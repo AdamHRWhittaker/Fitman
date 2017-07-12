@@ -70,8 +70,7 @@
             password: data.password,
             role: data.role,
             created: data.created,
-            deleted: data.deleted,
-            activities: data.activities
+            deleted: data.deleted
         });
 
         db.getDatabase(function (err, db) {

@@ -1,0 +1,106 @@
+<div ng-controller="WallController">
+
+    <div class="jumbotron" ng-show="!isLoggedIn">
+        <h2 ng-show="!isLoggedIn">You must be logged in to access this content</h2>
+    </div>
+
+    <!--Wall Display-->
+    <div class="jumbotron" ng-show="wallDisplay && isLoggedIn">
+        <h2>Wall</h2>
+        <div ng-show="!activitiesWallExists">No recent posts to show</div>
+        <div ng-show="activitiesWallExists" class="activity-holder" ng-repeat="activity in wallActivities">
+            <div class="activities">
+                <span class="activity-detail"><strong>Name</strong> - {{activity.name}}</span>
+                <span class="activity-detail"><strong>Created on</strong>- {{activity.created | amDateFormat: 'ddd, MMM  YY - h:mm a' }}</span>
+                <span class="activity-detail"><strong>Start</strong> - {{activity.start | amDateFormat: 'ddd, MMM  YY - h:mm a'}}</span>
+                <span class="activity-detail"><strong>End</strong> - {{activity.end | amDateFormat: 'ddd, MMM  YY - h:mm a'}}</span>
+                <span class="activity-detail"><strong>Calories spent</strong>  - {{activity.calories}}</span>
+                <a href="" data-toggle="modal" data-target="#commentWall-{{activity.id}}" ng-click="showWallComments(activity.id)">See comments</a>
+            </div>
+
+            <div class="btn-group">
+                <button type="button" class="btn btn-default" aria-label="Justify" ng-click="showActivityWallDetails(activity.id)">
+                        <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> View
+                    </button>
+                <button type="button" class="btn btn-default" aria-label="Justify" data-toggle="modal" data-target="#addCommentWall-{{activity.id}}">
+                        <span class="glyphicon glyphicon-bullhorn" aria-hidden="true"></span> Add Comment
+                    </button>
+            </div>
+
+
+            <!-- Comment Modal -->
+            <div id="commentWall-{{activity.id}}" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Comments</h4>
+                        </div>
+                        <div class="modal-body">
+                            <table ng-show="commentsWallExists" class="table">
+                                <tr>
+                                    <th>User</th>
+                                    <th>Comment</th>
+                                </tr>
+                                <tr ng-repeat="comment in activeWallComments track by $index">
+                                    <td>{{comment.author}}</td>
+                                    <td>{{comment.message}}<span class="comment-date"> {{comment.created | amDateFormat: 'ddd MM - h:mm a' }}</td>
+                                </tr>
+                            </table>
+                            <div ng-show="!commentsWallExists">No comments to show</div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+             <!-- Add Comment Modal -->
+            <div id="addCommentWall-{{activity.id}}" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Add Comment</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form id="addCommentForm">
+                                <div class="form-group">
+                                    <label for="textAreaComment">Comment</label>
+                                    <textarea type="text" class="form-control" id="textAreaComment" placeholder="Write a comment"/>
+                                </div>                                
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" ng-click="validateNewCommentFormAndSubmit(activity.id)" class="btn btn-primary">Save</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+       
+    </div>
+
+    <!--View Activity-->
+    <div class="jumbotron" ng-show="activityWallDetailsDisplay">
+        <h2>Activity Details</h2>
+        <div class="activities">
+            <span class="activity-detail"><strong>Name</strong> - {{activeWallActivity[0].name}}</span>
+                                        <span class="activity-detail"><strong>Created on</strong>- {{activeWallActivity[0].created | amDateFormat: 'ddd, MMM  YY - h:mm a' }}</span>
+                                        <span class="activity-detail"><strong>Start</strong> - {{activeWallActivity[0].start | amDateFormat: 'ddd, MMM  YY - h:mm a'}}</span>
+                                        <span class="activity-detail"><strong>End</strong> - {{activeWallActivity[0].end | amDateFormat: 'ddd, MMM  YY - h:mm a'}}</span>
+                                        <span class="activity-detail"><strong>Calories spent</strong>  - {{activeWallActivity[0].calories}}</span>
+                                        <span class="activity-detail"><strong>Shared</strong>  - {{activeWallActivity[0].shared ? 'Yes' : 'No'}}</span>
+                        </div>
+                        <button type="button" class="btn btn-danger" ng-click="showActivitiesWallPanel()">Go Back</button>
+                    </div>
+
+                </div>

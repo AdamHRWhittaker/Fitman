@@ -1,0 +1,50 @@
+html, body {
+    font-size: 16px;
+}
+
+a:hover {
+    cursor: pointer;
+}
+
+.activities {
+    padding: 10px 0;
+    border-top: 1px solid #000;
+}
+
+.activity-detail {
+    display: block;
+}
+
+.margin-bottom {
+    margin-bottom: 10px;
+}
+
+.activity-holder {
+    margin-top: 10px;
+}
+
+.comment-date {
+    font-size: 12px;
+    color: #337ab7;
+}
+
+/*#my-navbar {
+    background-color: #0099cc;
+    color: #fff;
+}
+
+#my-navbar a {
+    color: #fff;
+}
+
+#my-main {
+    color: #fff;
+}
+
+#my-navbar a:hover {
+    font-weight: bold;
+}
+
+#my-main .jumbotron{
+    background-color: #0099cc
+}*/

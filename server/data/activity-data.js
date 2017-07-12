@@ -42,7 +42,7 @@
                 callback(err, null);
             } else {
                 // get all records not deleted
-                Activity.find({ 'shared': true }, function (err, results) {
+                Activity.find({ 'shared': true, "deleted": false }, function (err, results) {
                     if (err) {
                         // db query error occured, pass error and no results back
                         callback(err, null);

@@ -33,8 +33,7 @@
         password: String,
         role: String,
         created: String,
-        deleted: Boolean,
-        activities: []
+        deleted: Boolean
     });
 
 })(module.exports);

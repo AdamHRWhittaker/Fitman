@@ -4,7 +4,7 @@
   "description": "Fitness tracking application",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -17,11 +17,14 @@
   },
   "homepage": "https://github.com/AdamHRWhittaker/Fitman#readme",
   "dependencies": {
-    "body-parser": "^1.17.2",
     "bootstrap": "^3.3.7",
     "browserify": "^14.4.0",
+    "body-parser": "^1.15.2",
+    "chai": "^3.5.0",
+    "chai-http": "^3.0.0",
     "express": "^4.15.3",
     "jquery": "^3.2.1",
+    "mocha": "^3.2.0",
     "moment": "^2.18.1",
     "mongodb": "^2.2.28",
     "mongoose": "^4.10.4",

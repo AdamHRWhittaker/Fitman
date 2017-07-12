@@ -1,0 +1,16 @@
+<div ng-controller="LoginController">
+    <div class="jumbotron" >
+        <h2>Login</h2>
+        <form>
+            <div class="form-group">
+                <label for="inputUsername">Username</label>
+                <input type="text" class="form-control" id="inputUsername" placeholder="Username" >
+            </div>
+            <div class="form-group">
+                <label for="inputPassword">Password</label>
+                <input type="password" class="form-control" id="inputPassword" placeholder="Password" >
+            </div>     
+             <div class="alert alert-danger" ng-show="loginErrorDisplay">{{loginError}}</div>       
+            <button type="submit" class="btn btn-default" ng-click="login()">Login</button>
+        </form>
+    </div>

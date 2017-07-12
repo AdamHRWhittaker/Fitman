@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Fitman</title>
+    <meta name="description" content="Fitman">
+    <meta name="author" content="Adam Whittaker">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+    <link href="dist/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.css" rel="stylesheet" />
+    <link href="css/site.css" rel="stylesheet" />
+
+    <!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
+  <![endif]-->
+</head>
+
+<body ng-app="fitman" ng-controller="AppController as app">
+    <div class="container">
+        <!--Navigation Bar-->
+        <nav id="my-navbar" class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+                        aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#!wall">Fitman</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="#!wall">Wall</a></li>
+                        <li><a href="#!activity">Activity</a></li>
+                        <li ng-show="isLoggedIn && isAdminUser"><a href="#!admin">Admin</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right" ng-controller="LoginController as login">
+                        <li><a ng-show="$parent.isLoggedIn">{{username}}</a></li>
+                        <li><a ng-show="$parent.isLoggedIn" ng-click="logoutUser()">Logout</a></li>
+                        <li><a ng-show="!$parent.isLoggedIn" ng-click="showLoginPage()">Login</a></li>  
+                        <li><a ng-show="!$parent.isLoggedIn" href="#!register">Register</a></li>                     
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!--Display view by router engine-->
+        <div id="my-main" ng-view></div>
+
+    </div>
+</body>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+    crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.4/angular.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.4/angular-route.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/angular-moment/0.9.0/angular-moment.min.js"></script>
+<script src="dist/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.js"></script>
+
+<script src="../controllers/app.js"></script>
+<script src="../controllers/login.js"></script>
+<script src="../controllers/activity.js"></script>
+<script src="../controllers/admin.js"></script>
+<script src="../controllers/register.js"></script>
+<script src="../controllers/wall.js"></script>
+<script src="../js/bundle.js"></script>
+
+</html>
