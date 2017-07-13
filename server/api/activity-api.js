@@ -25,7 +25,20 @@ module.exports = function (app) {
         });
     });
 
-    // GET: activity (by id)
+    // GET: activities for (all shared, non deleted)
+    app.get(url + "/user/:id", function (request, response) {
+        var id = request.params.id;
+
+        activityData.getForUser(id, function (err, results) {
+            if (err) {
+                response.json({ status: "Error", error: err });
+            } else {
+                response.json({ result: results });
+            }
+        });
+    });
+
+    // GET: activity (by id) ---- USE FOR TEST
     app.get(url + '/:id', function (request, response) {
         var id = request.params.id;
 
@@ -41,6 +54,8 @@ module.exports = function (app) {
     // POST: activity (insert)
     app.post(url, function (request, response) {
         var activity = request.body;
+
+        console.log(activity);
 
         activityData.insert(activity, function (err, result, affected) {
             if (err) {
@@ -65,11 +80,11 @@ module.exports = function (app) {
     });
 
     // DELETE: activity (hard delete)
-    app.delete(url + '/:id', function (request, response){
+    app.delete(url + '/:id', function (request, response) {
         var id = request.params.id;
 
-        activityData.permDelete(id, function(err, results){
-             if (err) {
+        activityData.permDelete(id, function (err, results) {
+            if (err) {
                 response.json({ status: "Error", error: err });
             } else {
                 response.json({ result: results });
@@ -78,11 +93,11 @@ module.exports = function (app) {
     });
 
     // POST: activity (soft delete)
-    app.post(url + '/:id', function (request, response){
+    app.post(url + '/:id', function (request, response) {
         var id = request.params.id;
 
-        activityData.delete(id, function(err, results){
-             if (err) {
+        activityData.delete(id, function (err, results) {
+            if (err) {
                 response.json({ status: "Error", error: err });
             } else {
                 response.json({ result: results });

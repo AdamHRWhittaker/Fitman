@@ -17,7 +17,7 @@ var app = angular.module('fitman', ["ngRoute", "angularMoment"])
             setAdminStatus: function (value) {
                 isAdminUser = value;
             },
-             getUsername: function () {
+            getUsername: function () {
                 return username;
             },
             setUsername: function (value) {

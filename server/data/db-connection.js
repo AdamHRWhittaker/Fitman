@@ -4,24 +4,12 @@
 
 (function (database) {
     var mongoose = require('mongoose');
-    let db = null;
 
-    database.getDatabase = function (callback) {
-        if (!db) {
-            // connect to db
             mongoose.connect('mongodb://localhost/Fitman', function (err) {
-                if (err) {
-                    // connection failed, pass error and no db back
-                    callback(err, null);                    
+                if (err) {                   
                     console.log('Error connecting to db');
+                    console.log(err);
                 } else {
-                    // connection successful, pass no error and db back                  
-                    callback(null, mongoose);
                 }
             });
-        } else {
-            // db already exists, pass no error and db back
-            callback(null, db);
-        }
-    }
 })(module.exports);

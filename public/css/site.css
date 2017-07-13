@@ -1,5 +1,6 @@
 html, body {
     font-size: 16px;
+    background-color: #e9ebee;
 }
 
 a:hover {
@@ -28,8 +29,8 @@ a:hover {
     color: #337ab7;
 }
 
-/*#my-navbar {
-    background-color: #0099cc;
+#my-navbar {
+    background-color: #4267b2;
     color: #fff;
 }
 
@@ -37,14 +38,27 @@ a:hover {
     color: #fff;
 }
 
-#my-main {
+/*#my-main {
     color: #fff;
-}
+}*/
 
 #my-navbar a:hover {
-    font-weight: bold;
+    text-decoration: underline;
 }
 
 #my-main .jumbotron{
-    background-color: #0099cc
-}*/
+    background-color: #fff;
+}
+
+h2, h4, label {
+    color: #4267b2;
+}
+
+.btn {
+    background-color: #f6f7f9;
+    color: #000;
+}
+
+.glyphicon {
+     color: #4267b2;
+}

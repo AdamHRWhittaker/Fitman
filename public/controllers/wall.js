@@ -85,13 +85,15 @@ function ($scope, $http, sharedProperties) {
 
         let model = {            
             message: comment,
-            author: "null",   // TODO: logged in user            
+            author: sessionStorage.getItem("username"), 
             deleted: false,
             activityId: id
         };
 
+        console.log(model);
+
         model.id = Math.floor($scope.generateId(30, 1000)).toString();
-        model.created = new Date().toLocaleString();
+        model.created = new Date();
 
         // Save comment
         $http({

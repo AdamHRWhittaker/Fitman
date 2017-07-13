@@ -3,6 +3,8 @@
 angular.module('fitman').controller('ActivityController', ['$scope', '$http', 'sharedProperties',
     function ($scope, $http, sharedProperties) {
 
+        $scope.userRepo = [];
+
         // Toastr notification settings
         $scope.toastrOpts = {
             positionClass: "toast-top-center",
@@ -231,11 +233,19 @@ angular.module('fitman').controller('ActivityController', ['$scope', '$http', 's
                     });
                 } else {
 
+                    let username = sessionStorage.getItem("username");
+
+                    let selectedUser = $scope.userRepo.find(function (user) {
+                        return user.username === username;
+                    });
+
                     // insert new
                     model.id = Math.floor($scope.generateId(1, 1000));
-                    model.created = new Date().toLocaleString();
+                    model.created = new Date();
                     model.deleted = false;
                     model.comments = null;
+                    model.ownerId = selectedUser.id;
+                    model.ownerName = selectedUser.username;
 
                     // Call api
                     $http({
@@ -250,7 +260,7 @@ angular.module('fitman').controller('ActivityController', ['$scope', '$http', 's
                             toastr.options = $scope.toastrOpts;
                             toastr.info('Activity created');
                             // get new data run init
-                            $scope.init();
+                            //$scope.init();
                             $scope.showActivitiesPanel();
                         }
                     }, function myError(response) {
@@ -271,14 +281,17 @@ angular.module('fitman').controller('ActivityController', ['$scope', '$http', 's
             return Math.random() * (max - min) + min;
         }
 
-        // Initialise data
-        $scope.init = function () {
-            $scope.isLoggedIn = sharedProperties.getLoginStatus();
+        $scope.getActivities = function (users) {
+            let username = sessionStorage.getItem("username");
+
+            let selectedUser = users.find(function (user) {
+                return user.username === username;
+            });
 
             // Call api
             $http({
                 method: "GET",
-                url: "http://localhost:9999/api/activity"
+                url: "http://localhost:9999/api/activity/user/" + selectedUser.id
             }).then(function mySuccess(response) {
                 // Set activities if any comments exist
                 if (response.data.result === "No records found") {
@@ -286,6 +299,27 @@ angular.module('fitman').controller('ActivityController', ['$scope', '$http', 's
                 } else {
                     $scope.activitiesExists = true;
                     $scope.userActivities = response.data.result;
+                }
+            }, function myError(response) {
+                console.log(response);
+            });
+        }
+
+        // Initialise data
+        $scope.init = function () {
+            $scope.isLoggedIn = sharedProperties.getLoginStatus();
+
+            // Call api
+            $http({
+                method: "GET",
+                url: "http://localhost:9999/api/user"
+            }).then(function mySuccess(response) {
+                // Set active activity if exists
+                if (response.data.result === "No records found") {
+                    console.log("error");
+                } else {
+                    $scope.userRepo = response.data.result;
+                    $scope.getActivities($scope.userRepo);                    
                 }
             }, function myError(response) {
                 console.log(response);
